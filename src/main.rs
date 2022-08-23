@@ -46,7 +46,7 @@ async fn create_user(
         username: payload.username,
     };
     if user.username == "leej" {
-        return Err(AppError::ClientError(BadRequest::NameTooLong));
+        return Err(AppError::ClientError(BadRequest::NameTooShort));
     }
     // this will be converted into a JSON response
     // with a status code of `201 Created`
@@ -75,8 +75,8 @@ enum AppError {
 impl IntoResponse for AppError {
     fn into_response(self) -> Response {
         let (status, error_message) = match self {
-            AppError::ClientError(BadRequest::NameTooLong) => {
-                (StatusCode::BAD_REQUEST, "Name too long")
+            AppError::ClientError(BadRequest::NameTooShort) => {
+                (StatusCode::BAD_REQUEST, "name too short")
             }
         };
 
@@ -100,5 +100,5 @@ impl From<BadRequest> for AppError {
 #[derive(Debug)]
 enum BadRequest {
     #[allow(dead_code)]
-    NameTooLong,
+    NameTooShort,
 }
