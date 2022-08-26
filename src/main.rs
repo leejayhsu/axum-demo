@@ -1,3 +1,5 @@
+mod handler;
+
 use axum::{
     http::StatusCode,
     response::{IntoResponse, Response},
@@ -16,7 +18,7 @@ async fn main() {
     // build our application with a route
     let app = Router::new()
         // `GET /` goes to `root`
-        .route("/", get(root))
+        .route("/", get(crate::handler::root))
         // `POST /users` goes to `create_user`
         .route("/users", post(create_user));
 
@@ -28,11 +30,6 @@ async fn main() {
         .serve(app.into_make_service())
         .await
         .unwrap();
-}
-
-// basic handler that responds with a static string
-async fn root() -> impl IntoResponse {
-    (StatusCode::OK, Json(json!({"msg": "ok"})))
 }
 
 async fn create_user(
