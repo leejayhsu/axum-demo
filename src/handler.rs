@@ -19,6 +19,8 @@ pub async fn create_user(
         id: 1337,
         username: payload.username,
     };
+
+    // just an example of using using error handling, get rid of this eventually.
     if user.username == "leej" {
         return Err(AppError::ClientError(BadRequest::NameTooShort));
     }
